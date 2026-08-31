@@ -302,8 +302,20 @@ public class Generator {
             if (cursor != null) {
                 CXCursor paramCursor = clang_Cursor_getArgument(cursor, i);
                 String potentialName = clang_getCursorSpelling(paramCursor).getString();
-                if (!potentialName.isEmpty())
+                if (!potentialName.isEmpty()) {
                     name = potentialName;
+                    switch (name) {
+                        case "env":
+                            name = "_env";
+                            break;
+                        case "clazz":
+                            name = "_clazz";
+                            break;
+                        case "object":
+                            name = "_object";
+                            break;
+                    }
+                }
             }
             TypeDefinition argTypeDefinition = registerCXType(argType, name, null);
 

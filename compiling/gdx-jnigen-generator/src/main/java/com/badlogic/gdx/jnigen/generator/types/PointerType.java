@@ -45,6 +45,10 @@ public class PointerType implements MappedType {
         return pointingTo.getTypeKind() == TypeKind.VOID;
     }
 
+    public boolean isFunctionPointer() {
+        return pointingTo.getTypeKind() == TypeKind.CLOSURE;
+    }
+
     private String findJavaPointerForIntPointer() {
         if (!isIntPointer())
             throw new IllegalArgumentException("Trying to find int pointer for non-integer pointer type");
@@ -93,6 +97,8 @@ public class PointerType implements MappedType {
             pointingTo.getMappedType().importType(cu);
         else if (isPointerPointer())
             cu.addImport(ClassNameConstants.POINTERPOINTER_CLASS);
+        else if (isFunctionPointer())
+            cu.addImport(ClassNameConstants.CLOSURE_CLASS);
         else
             throw new IllegalArgumentException("Type " + pointingTo.getTypeKind() + " can't be pointerized");
         pointingTo.getMappedType().importType(cu);

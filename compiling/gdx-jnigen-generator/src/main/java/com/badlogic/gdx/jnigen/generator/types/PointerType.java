@@ -130,6 +130,8 @@ public class PointerType implements MappedType {
             return pointingTo.getMappedType().abstractType() + "." + pointingTo.getMappedType().abstractType() + "Pointer";
         if (isPointerPointer())
             return "PointerPointer<" + pointingTo.getMappedType().abstractType() + ">";
+        if (isFunctionPointer())
+            return pointingTo.getMappedType().abstractType();
 
         throw new IllegalArgumentException();
     }
